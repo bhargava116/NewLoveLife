@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Eternal Love</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Great+Vibes&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --rose-pink: #f8d7da;
+            --deep-rose: #c2185b;
+            --soft-gold: #d4a853;
+            --cream: #fff9f0;
+            --blush: #ffe4e9;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4e9 50%, #fff0f5 100%);
+            color: #4a4a4a;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text y="20" font-size="20">💕</text></svg>'), auto;
+        }
+
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .script {
+            font-family: 'Great Vibes', cursive;
+        }
+
+        /* Magical Particle Background */
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Floating Petals */
+        .petal {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Section Transitions */
+        .magic-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 
+                0 20px 60px rgba(194, 24, 91, 0.1),
+                0 0 40px rgba(212, 168, 83, 0.2),
+                inset 0 0 60px rgba(255, 255, 255, 0.5);
+            padding: 3rem;
+            max-width: 900px;
+            width: 100%;
+            transform: translateY(50px) scale(0.95);
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content-card.visible {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .content-card:hover {
+            box-shadow: 
+                0 30px 80px rgba(194, 24, 91, 0.15),
+                0 0 60px rgba(212, 168, 83, 0.3),
+                inset 0 0 80px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Text Animations */
+        .magic-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .magic-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .magic-text.stagger-1 { transition-delay: 0.1s; }
+        .magic-text.stagger-2 { transition-delay: 0.2s; }
+        .magic-text.stagger-3 { transition-delay: 0.3s; }
+        .magic-text.stagger-4 { transition-delay: 0.4s; }
+        .magic-text.stagger-5 { transition-delay: 0.5s; }
+
+        /* Glowing Text Effect */
+        .glow-text {
+            text-shadow: 
+                0 0 10px rgba(194, 24, 91, 0.3),
+                0 0 20px rgba(194, 24, 91, 0.2),
+                0 0 30px rgba(194, 24, 91, 0.1);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 
+                    0 0 10px rgba(194, 24, 91, 0.3),
+                    0 0 20px rgba(194, 24, 91, 0.2),
+                    0 0 30px rgba(194, 24, 91, 0.1);
+            }
+            50% {
+                text-shadow: 
+                    0 0 20px rgba(194, 24, 91, 0.5),
+                    0 0 40px rgba(194, 24, 91, 0.3),
+                    0 0 60px rgba(194, 24, 91, 0.2);
+            }
+        }
+
+        /* Heart Pulse Animation */
+        .heart-pulse {
+            animation: heartPulse 2s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Sparkle Effect */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Button Styles */
+        .magic-btn {
+            background: linear-gradient(135deg, #ec4899 0%, #be185d 50%, #9d174d 100%);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(236, 72, 153, 0.4);
+        }
+
+        .magic-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .magic-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.6);
+        }
+
+        .magic-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Image Frame */
+        .image-frame {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            transition: transform 0.5s ease;
+        }
+
+        .image-frame:hover {
+            transform: scale(1.02);
+        }
+
+        .image-frame::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(194, 24, 91, 0.2) 100%);
+            pointer-events: none;
+        }
+
+        /* Progress Indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f472b6, #ec4899, #be185d);
+            z-index: 100;
+            transition: width 0.1s ease;
+        }
+
+        /* Floating Elements */
+        .float-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #be185d;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: #be185d; }
+        }
+
+        /* Ring Animation */
+        .ring-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        .ring-glow {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 168, 83, 0.3) 0%, transparent 70%);
+            animation: ringPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff5f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #f472b6, #ec4899);
+            border-radius: 4px;
+        }
+
+        /* Music Note Animation */
+        .music-note {
+            position: fixed;
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: musicFloat 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes musicFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Star Twinkle */
+        .star {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: #d4a853;
+            border-radius: 50%;
+            animation: twinkle 3s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4e9 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-heart {
+            font-size: 4rem;
+            animation: loadingHeart 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loadingHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .loading-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: #be185d;
+            margin-top: 1rem;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-heart">💖</div>
+        <div class="loading-text">Creating Magic For You...</div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Particle Canvas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Floating Petals Container -->
+    <div id="petals-container"></div>
+
+    <!-- Music Notes Container -->
+    <div id="music-container"></div>
+
+    <!-- Stars Container -->
+    <div id="stars-container"></div>
+
+    <!-- Section 1: Opening -->
+    <section class="magic-section" id="section1">
+        <div class="content-card">
+            <div class="text-center">
+                <div class="float-element mb-8">
+                    <svg class="w-20 h-20 mx-auto text-pink-400" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                
+                <p class="script text-4xl md:text-5xl text-pink-600 mb-4 magic-text">To My Dearest Love</p>
+                
+                <h1 class="serif text-5xl md:text-7xl lg:text-8xl text-pink-900 mb-6 glow-text magic-text stagger-1">
+                    Happy Birthday
+                </h1>
+                
+                <div class="w-32 h-1 bg-gradient-to-r from-transparent via-pink-400 to-transparent mx-auto my-8 magic-text stagger-2"></div>
+                
+                <p class="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto magic-text stagger-3">
+                    Today, the universe celebrates the day its most beautiful soul came into existence. 
+                    And I celebrate the day my life found its meaning.
+                </p>
+
+                <div class="mt-12 magic-text stagger-4">
+                    <p class="script text-3xl text-pink-500">You are my everything ✨</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: The Poetry of Her Soul -->
+    <section class="magic-section" id="section2">
+        <div class="content-card">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="image-frame float-element">
+                    <img src="https://image.qwenlm.ai/public_source/43686632-1811-40e1-b5ad-aaa48af97a16/161afb0ea-cb20-4515-8424-6d72bf9dc00f.png" 
+                         alt="Beautiful flowers" 
+                         class="w-full h-full object-cover">
+                </div>
+                
+                <div>
+                    <h2 class="serif text-4xl md:text-5xl text-pink-900 mb-6 magic-text">
+                        The Poetry of Your Soul
+                    </h2>
+                    
+                    <div class="space-y-4 text-gray-700 leading-relaxed">
+                        <p class="magic-text stagger-1">
+                            <span class="text-pink-600 font-semibold">Your eyes</span> are not just windows to your soul—they are galaxies where I lose myself, stars that guide me home when I'm lost in the darkness of my own mistakes.
+                        </p>
+                        
+                        <p class="magic-text stagger-2">
+                            <span class="text-pink-600 font-semibold">Your laughter</span> is the melody that heals every wound, the symphony that makes my heart dance even when it's heavy with regret.
+                        </p>
+                        
+                        <p class="magic-text stagger-3">
+                            <span class="text-pink-600 font-semibold">Your kindness</span> is a light that never dims, illuminating not just my path, but the paths of everyone fortunate enough to know you.
+                        </p>
+                        
+                        <p class="magic-text stagger-4">
+                            <span class="text-pink-600 font-semibold">Your love</span> is the poetry I never knew how to write, the story I always wanted to be part of, the home I never knew I was searching for.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: The Apology -->
+    <section class="magic-section" id="section3">
+        <div class="content-card">
+            <div class="text-center max-w-3xl mx-auto">
+                <div class="heart-pulse mb-6">
+                    <svg class="w-16 h-16 mx-auto text-pink-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                
+                <h2 class="serif text-4xl md:text-5xl text-pink-900 mb-8 glow-text magic-text">
+                    From The Depths of My Heart
+                </h2>
+                
+                <div class="space-y-6 text-lg text-gray-700 leading-relaxed">
+                    <p class="magic-text stagger-1">
+                        My Beloved, on this sacred day of your birth, I come before you with a heart full of love and humility. I know I have fallen short of the partner you deserve. I know my actions have caused you pain, and for that, I carry a weight that only your forgiveness can lift.
+                    </p>
+                    
+                    <p class="magic-text stagger-2">
+                        You are too precious, too beautiful, too extraordinary to ever be treated with anything less than complete devotion. Your soul is a masterpiece, and I was careless with something so divine.
+                    </p>
+                    
+                    <p class="magic-text stagger-3">
+                        But today, on your birthday, I want you to know this: Every moment of regret has taught me how much you mean to me. Every tear I've caused you has shown me the depth of my love. And every mistake has led me here—to this promise, to this commitment, to this renewed vow.
+                    </p>
+                    
+                    <p class="magic-text stagger-4 text-pink-700 font-medium italic">
+                        "I am sorry, not just with words, but with every beat of my heart that longs to make things right."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: The Promise -->
+    <section class="magic-section" id="section4">
+        <div class="content-card">
+            <div class="text-center mb-12">
+                <div class="ring-container mb-8">
+                    <div class="ring-glow"></div>
+                    <img src="https://image.qwenlm.ai/public_source/43686632-1811-40e1-b5ad-aaa48af97a16/1a22fb769-dfd8-4019-86b0-53a53a13cc18.png" 
+                         alt="Promise Ring" 
+                         class="w-full h-full object-cover rounded-full border-4 border-white shadow-xl">
+                </div>
+                
+                <h2 class="serif text-4xl md:text-5xl text-pink-900 mb-4 glow-text magic-text">
+                    My Sacred Promise
+                </h2>
+                <p class="script text-2xl text-pink-500 magic-text stagger-1">A Vow Written in Starlight</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gradient-to-br from-pink-50 to-rose-50 p-6 rounded-2xl border border-pink-100 magic-text stagger-2 hover:shadow-lg transition-shadow">
+                    <div class="text-4xl mb-4">🌹</div>
+                    <h3 class="serif text-xl text-pink-800 mb-3">To Cherish</h3>
+                    <p class="text-gray-600 text-sm">Every moment with you will be treasured. Every word you speak will be heard. Every dream you have will be supported.</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-pink-50 to-rose-50 p-6 rounded-2xl border border-pink-100 magic-text stagger-3 hover:shadow-lg transition-shadow">
+                    <div class="text-4xl mb-4">💫</div>
+                    <h3 class="serif text-xl text-pink-800 mb-3">To Protect</h3>
+                    <p class="text-gray-600 text-sm">Your heart is sacred to me. I will guard it with my life, nurture it with my love, and never let it feel alone again.</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-pink-50 to-rose-50 p-6 rounded-2xl border border-pink-100 magic-text stagger-4 hover:shadow-lg transition-shadow">
+                    <div class="text-4xl mb-4">✨</div>
+                    <h3 class="serif text-xl text-pink-800 mb-3">To Grow</h3>
+                    <p class="text-gray-600 text-sm">Together we will build a future more beautiful than any dream. Side by side, hand in hand, heart to heart.</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 magic-text stagger-5">
+                <p class="serif text-2xl text-pink-700 italic mb-6">
+                    "This is not just a promise—it is my commitment to spend every remaining day of my life proving my love to you."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: The Proposal -->
+    <section class="magic-section" id="section5">
+        <div class="content-card">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h2 class="serif text-4xl md:text-5xl text-pink-900 mb-6 glow-text magic-text">
+                        Will You Let Me Love You Again?
+                    </h2>
+                    
+                    <div class="space-y-4 text-gray-700 leading-relaxed magic-text stagger-1">
+                        <p>
+                            My dearest, I know I cannot undo the past. But I can promise you a future so beautiful, so filled with love and devotion, that every moment of pain will be replaced with joy.
+                        </p>
+                        
+                        <p>
+                            Let this birthday be the beginning of our new chapter. A chapter where I am the partner you always deserved. Where your smile never fades. Where your heart never doubts.
+                        </p>
+                        
+                        <p class="text-pink-600 font-medium italic">
+                            "You are my yesterday, my today, and all of my tomorrows. Let me spend them making you happy."
+                        </p>
+                    </div>
+                    
+                    <div class="mt-8 magic-text stagger-2">
+                        <button class="magic-btn" id="acceptBtn">
+                            Yes, I Believe In Us 💕
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="image-frame float-element">
+                    <img src="https://image.qwenlm.ai/public_source/43686632-1811-40e1-b5ad-aaa48af97a16/11be7bfab-3031-4027-b2cb-d87eee043281.png" 
+                         alt="Romantic couple" 
+                         class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Birthday Wishes -->
+    <section class="magic-section" id="section6">
+        <div class="content-card">
+            <div class="text-center">
+                <div class="float-element mb-6">
+                    <svg class="w-16 h-16 mx-auto text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                </div>
+                
+                <h2 class="serif text-4xl md:text-5xl text-pink-900 mb-8 glow-text magic-text">
+                    Birthday Wishes From My Soul To Yours
+                </h2>
+                
+                <div class="space-y-4 text-lg text-gray-700 max-w-2xl mx-auto">
+                    <p class="magic-text stagger-1">
+                        ✨ May this year bring you more joy than you've ever known
+                    </p>
+                    <p class="magic-text stagger-2">
+                        🌸 May your dreams unfold like the most beautiful flowers
+                    </p>
+                    <p class="magic-text stagger-3">
+                        💖 May your heart always feel as loved as you make others feel
+                    </p>
+                    <p class="magic-text stagger-4">
+                        🌟 May every day remind you how extraordinary you are
+                    </p>
+                    <p class="magic-text stagger-5">
+                        💕 And may our love story continue to be written in the stars
+                    </p>
+                </div>
+                
+                <div class="mt-12 pt-8 border-t border-pink-200 magic-text">
+                    <p class="script text-3xl text-pink-600">Forever & Always Yours</p>
+                    <p class="text-gray-500 mt-2">Happy Birthday, My Eternal Love 🎂</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-500">
+        <div class="content-card max-w-md mx-4 transform scale-90 transition-transform duration-500" id="modalContent">
+            <div class="text-center">
+                <div class="text-6xl mb-4 heart-pulse">💖</div>
+                <h3 class="serif text-3xl text-pink-900 mb-4">Thank You, My Love</h3>
+                <p class="text-gray-600 mb-6">
+                    Your belief in us means everything. I promise to make every day worth this moment. I love you more than words can express.
+                </p>
+                <div class="script text-2xl text-pink-500">Forever Yours ✨</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Loading Screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').classList.add('hidden');
+            }, 2500);
+        });
+
+        // Scroll Progress
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrollTop / docHeight) * 100;
+            document.getElementById('scrollProgress').style.width = progress + '%';
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const magicTexts = entry.target.querySelectorAll('.magic-text');
+                    magicTexts.forEach((text, index) => {
+                        setTimeout(() => {
+                            text.classList.add('visible');
+                        }, index * 150);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.content-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Particle System
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.hue = Math.random() * 60 + 330; // Pink to gold range
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                if (this.x > canvas.width) this.x = 0;
+                if (this.x < 0) this.x = canvas.width;
+                if (this.y > canvas.height) this.y = 0;
+                if (this.y < 0) this.y = canvas.height;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 70%, 70%, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        initParticles();
+        animateParticles();
+
+        // Floating Petals
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            petal.innerHTML = '🌸';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = (Math.random() * 5 + 8) + 's';
+            petal.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            document.getElementById('petals-container').appendChild(petal);
+
+            setTimeout(() => {
+                petal.remove();
+            }, 13000);
+        }
+
+        setInterval(createPetal, 2000);
+
+        // Stars
+        function createStar() {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            document.getElementById('stars-container').appendChild(star);
+        }
+
+        for (let i = 0; i < 50; i++) {
+            createStar();
+        }
+
+        // Music Notes
+        function createMusicNote() {
+            const notes = ['♪', '♫', '♬', '♩'];
+            const note = document.createElement('div');
+            note.classList.add('music-note');
+            note.textContent = notes[Math.floor(Math.random() * notes.length)];
+            note.style.left = Math.random() * 100 + 'vw';
+            note.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            note.style.color = '#ec4899';
+            document.getElementById('music-container').appendChild(note);
+
+            setTimeout(() => {
+                note.remove();
+            }, 5000);
+        }
+
+        setInterval(createMusicNote, 3000);
+
+        // Accept Button
+        document.getElementById('acceptBtn').addEventListener('click', function() {
+            const modal = document.getElementById('successModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-90');
+                modalContent.classList.add('scale-100');
+            }, 100);
+
+            // Create celebration effect
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createPetal();
+                }, i * 100);
+            }
+        });
+
+        // Close modal on outside click
+        document.getElementById('successModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                const modalContent = document.getElementById('modalContent');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-90');
+                setTimeout(() => {
+                    this.classList.add('opacity-0', 'pointer-events-none');
+                }, 300);
+            }
+        });
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            document.querySelectorAll('.float-element').forEach((el, index) => {
+                const speed = 0.1 + (index * 0.05);
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Add sparkles on click
+        document.addEventListener('click', (e) => {
+            for (let i = 0; i < 5; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.left = e.clientX + (Math.random() * 40 - 20) + 'px';
+                sparkle.style.top = e.clientY + (Math.random() * 40 - 20) + 'px';
+                sparkle.style.animationDelay = (Math.random() * 0.5) + 's';
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>
